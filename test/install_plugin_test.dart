@@ -6,7 +6,7 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   const MethodChannel channel = MethodChannel('install_plugin');
   final List<MethodCall> log = <MethodCall>[];
-  String response;
+  String? response;
 
   channel.setMockMethodCallHandler((MethodCall methodCall) async {
     log.add(methodCall);
@@ -17,7 +17,6 @@ void main() {
     log.clear();
   });
 
-
   test('installApk test', () async {
     response = 'Success';
     final fakePath = 'fake.apk';
@@ -25,7 +24,10 @@ void main() {
     final String result = await InstallPlugin.installApk(fakePath, fakeAppId);
     expect(
       log,
-      <Matcher>[isMethodCall('installApk', arguments: {'filePath': fakePath, 'appId': fakeAppId})],
+      <Matcher>[
+        isMethodCall('installApk',
+            arguments: {'filePath': fakePath, 'appId': fakeAppId})
+      ],
     );
     expect(result, response);
   });
@@ -42,5 +44,4 @@ void main() {
     );
     expect(result, isNull);
   });
-
 }
